@@ -11,6 +11,8 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
+
+
 public class RobotContainer {
     Drivetrain drivetrain;
     Shooter shooter;
@@ -27,9 +29,9 @@ public class RobotContainer {
         
         drivetrain.setDefaultCommand(
             drivetrain.joyDriveCmd(
-                () -> controller.getLeftY(),
+                () -> -controller.getLeftY(),
                 () -> controller.getRightX(),
-                0.1
+                0.15
             )
         );
     }
@@ -42,6 +44,12 @@ public class RobotContainer {
         controller.rightBumper()
             .onTrue(shootCmd())
             .onFalse(stopCmd());
+
+        controller.a()
+            .whileTrue(drivetrain.aimAndDriveCmd(
+                () -> -controller.getLeftY(),
+                0.15
+            ));
     }
 
     public Command intakeCmd() {
